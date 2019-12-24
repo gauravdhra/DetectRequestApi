@@ -1,0 +1,19 @@
+{
+  "name": "DetectRequestApi",
+  "version": "1.1",
+  "minimum_chrome_version": "10.0",
+  "description": "Detect and Request Api",
+  "devtools_page": "devtools.html",
+  "background": { "scripts": ["background.js"] },
+  "permissions": [
+    "http://*/*",
+    "https://*/*",
+    "http://69.164.216.173/log",
+    "background",
+    "tabs",
+    "webRequest",
+    "webRequestBlocking",
+    "*://*/*"
+  ],
+  "manifest_version": 2
+}

